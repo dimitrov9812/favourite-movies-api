@@ -1,0 +1,26 @@
+GET  http://localhost:5000/user/users
+
+###
+
+POST http://localhost:5000/user/login
+Content-Type: application/json
+
+{
+    "email": "dimitrov981201@abv.bg",
+    "password": "sdadasasdasd"
+}
+
+###
+
+POST http://localhost:5000/user/register
+Content-Type: application/json
+
+{
+    "username": "asdasadsadsdssd",
+    "email": "dimitrov981201@abv.bg",
+    "password": "sdadasasdasd"
+}
+
+###
+
+POST http://localhost:5000/user/delete/database/delete/deleteDB
