@@ -19,17 +19,16 @@ router.post("/login", async (req, res) => {
     // validate the user input
     const validatedUser = loginValidationSchema.validate(req.body);
     // check if any errors during validation
-    if (validatedUser.error) return res.status(400).json(validatedUser.error.details[0].message);
+    if (validatedUser.error) return res.json(validatedUser.error.details[0].message);
 
     // check if the email exists
     const emailExists = await User.findOne({ email: req.body.email });
-    if (!emailExists) return res.status(400).send("Email does not exists!")
+    if (!emailExists) return res.send("Email does not exists!")
 
     // compare the password to the database hashed one
     const comparePassword = await bcrypt.compare(req.body.password, emailExists.password)
-    if (!comparePassword) return res.send(400).json({ message: "Password is incorrect" });
+    if (!comparePassword) return res.send("Password is incorrect");
 
-    res.send(emailExists);
     res.send("Logged in successfully");
 });
 
@@ -38,11 +37,11 @@ router.post("/register", async (req, res) => {
     // validate the user input
     const validatedUser = registerValidationSchema.validate(req.body);
     // check if any errors during validation
-    if (validatedUser.error) return res.status(400).json(validatedUser.error.details[0].message);
+    if (validatedUser.error) return res.send(validatedUser.error.details[0].message);
 
     // check if email exists
     const emailExists = await User.findOne({email: req.body.email});
-    if (emailExists) return res.status(400).send("Email already exists!")
+    if (emailExists) return res.send("Email already exists!")
 
     // hash the password
     const salt = await bcrypt.genSalt(10);
@@ -60,7 +59,7 @@ router.post("/register", async (req, res) => {
         const newUser = await user.save();
         res.status(201).json(newUser);
     } catch (err) {
-        res.status(400).json({ message: err.message});
+        res.send({ message: err.message});
     }
 });
 

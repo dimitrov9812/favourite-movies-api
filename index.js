@@ -7,7 +7,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 const port = process.env.PORT || 3000;
 app.use(express.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Content-Type', 'application/json');
+    res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    next();
+  });
 
+  
 // setup the database
 mongoose.connect(process.env.DB_URL,{
     useNewUrlParser: true,
