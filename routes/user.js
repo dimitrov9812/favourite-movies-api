@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
     const comparePassword = await bcrypt.compare(req.body.password, emailExists.password)
     if (!comparePassword) return res.send("Password is incorrect");
 
-    res.send("Logged in successfully");
+    res.send({message:"Logged in successfully", user: emailExists});
 });
 
 // register
